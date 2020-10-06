@@ -6,3 +6,6 @@ my first test at Git and GitHub
 this is just a test
 
 new line and changes
+
+
+today is the 6th of October
