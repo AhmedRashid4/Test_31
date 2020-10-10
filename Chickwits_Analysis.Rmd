@@ -1,0 +1,70 @@
+---
+title: "Chick Weight Analysis"
+output: "html_document"
+author: "Ahmed AlRashid"
+date: "03/10/2020"
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(tidyverse)
+library(Hmisc)
+library(multcompView)
+library(DT)
+library(pander)
+```
+
+## Descriptive Statistics
+
+```{r echo = FALSE}
+
+ ChickTable <- chickwts %>% 
+  group_by(feed) %>% 
+  summarise(n = length(feed),
+            Average = mean(weight),
+            SD = sd(weight))
+datatable(ChickTable)
+
+```
+
+## Plots
+
+```{r echo = FALSE}
+ggplot(chickwts, aes(x <- feed, y <- weight)) +
+  geom_boxplot()
+```
+
+
+```{r echo = FALSE}
+ggplot(chickwts, aes(feed, weight)) +
+  geom_jitter(width = 1) +
+  stat_summary(fun.data = mean_sdl,
+              # fun.orgs = list(mult = 1),
+               col = "red")
+```
+
+
+## Inferentail Statistics 
+the one-way ANOVA summary:
+
+```{r echo = FALSE}
+ChickTable_lm <- lm(weight ~ feed, data = chickwts)
+
+ChickTable.anova <- anova(ChickTable_lm)
+ChickTable.anova
+datatable(ChickTable.anova)
+```
+
+
+## Tukey’s Post-hoc test:
+
+
+```{r echo = FALSE}
+chickwts.av <- aov(weight ~ feed, data =chickwts)
+  tukyTest <- TukeyHSD(chickwts.av)
+
+datatable(tukyTest$feed)
+```
+
+
