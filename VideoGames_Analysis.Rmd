@@ -1,0 +1,20 @@
+---
+title: "VideoGames_Analysis"
+author: "Ahmed ALRashid"
+date: "10/17/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+vgSales <- read.csv("data/vgsales.csv")
+
+```
+
+
+Video Games Sales top 10
+
+```{r}
+
+```
+
