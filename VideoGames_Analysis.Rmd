@@ -12,6 +12,18 @@ vgSales <- read.csv("data/vgsales.csv")
 
 ```
 
+# Introduction
+
+Discuss the data and where it came from [kaggle](https://www.kaggle.com/gregorut/videogamesales)
+
+# Research questions
+
+With this data set we'll attempt to uncover ....
+
+(What are the kinds of research question that you can answer with this data set?). Is there a relationship between region and platforms, or genres? Have specific genres increased of decreased in popularity over time. Are certain genres more popular on certain platforms, etc. 
+
+What about the rankings?
+
 
 # Video Games Sales top 10 globaly 
 
@@ -27,13 +39,29 @@ datatable(GS_top10)
 # Plot showing the global sales based on platform 
 
 ```{r}
+sort(unique(vgSales$Year))
+
+# Select only certain platforms
+# choose only one year ()
+
+vgSales %>% 
+  filter(Year == "2015", Platform %in% c("Wii", "NES", "3DS")) %>% 
+  group_by(Platform, Genre) %>% 
+  summarise(Total_Sales = sum(Global_Sales)) %>% 
+  ggplot(aes(Genre, Total_Sales, fill = Platform)) +
+  geom_col()
+
+```
+
+
+
+```{r}
 ggplot(vgSales, aes(Platform, Global_Sales, color = "region")) +
   geom_bar(stat = "identity") +
    theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none")
         
-            
 ```
 
 
@@ -45,19 +73,18 @@ ggplot(vgSales, aes(Platform, Global_Sales, color = "region")) +
 nGames <- vgSales %>% 
   group_by(Publisher) %>%
  count(sort = TRUE)
-datatable(vGames)
+
+datatable(nGames)
 
 ```
 
-# plot showing 
-
-
 
 # Top sold game for each platform
+
+incomplete
 
 ```{r}
 top_g <- vgSales %>% 
   group_by_(Platform)
   
-
 ```
