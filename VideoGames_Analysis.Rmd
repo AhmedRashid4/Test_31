@@ -5,16 +5,59 @@ date: "10/17/2020"
 output: html_document
 ---
 
-```{r}
+```{r include=FALSE}
 library(tidyverse)
+library(DT)
 vgSales <- read.csv("data/vgsales.csv")
 
 ```
 
 
-Video Games Sales top 10
+# Video Games Sales top 10 globaly 
 
 ```{r}
+GS_top10 <- vgSales %>% 
+  summarise(vgSales, Global_Sales) %>% 
+  top_n(10)
+datatable(GS_top10)
+  
+```
+
+
+# Plot showing the global sales based on platform 
+
+```{r}
+ggplot(vgSales, aes(Platform, Global_Sales, color = "region")) +
+  geom_bar(stat = "identity") +
+   theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+        
+            
+```
+
+
+
+
+# Number of games per publisher 
+
+```{r}
+nGames <- vgSales %>% 
+  group_by(Publisher) %>%
+ count(sort = TRUE)
+datatable(vGames)
 
 ```
 
+# plot showing 
+
+
+
+# Top sold game for each platform
+
+```{r}
+top_g <- vgSales %>% 
+  group_by_(Platform)
+  
+
+```
